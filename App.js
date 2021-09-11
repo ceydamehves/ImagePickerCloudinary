@@ -1,23 +1,23 @@
-import React, { useState } from 'react'
+import React, {useState} from 'react';
 import {
   StyleSheet,
   View,
   Text,
   Dimensions,
   TouchableOpacity,
-  Image,
 } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
+import Video from 'react-native-video';
 
 const App = () => {
-  const [photo, setPhoto] = useState('https://res.cloudinary.com/ogcodes/image/upload/v1581387688/m0e7y6s5zkktpceh2moq.jpg');
+  const [photo, setPhoto] = useState('https://res.cloudinary.com/ceydamehves/video/upload/v1630569614/SampleVideo_1280x720_1mb_lzg9k7.mp4');
 
   const selectPhotoTapped = () => {
     const options = {
       title: 'Select Photo',
       storageOptions: {
         skipBackup: true,
-        path: 'images',
+        path: 'pictures',
       },
     };
     ImagePicker.showImagePicker(options, (response) => {
@@ -43,9 +43,9 @@ const App = () => {
     console.log(photo.uri)
     const data = new FormData()
     data.append('file', photo)
-    data.append('upload_preset', 'ogcodes')
-    data.append("cloud_name", "ogcodes")
-    fetch("https://api.cloudinary.com/v1_1/ogcodes/upload", {
+    data.append('upload_preset', 'ceydamehves')
+    data.append("cloud_name", "ceydamehves")
+    fetch("https://api.cloudinary.com/v1_1/ceydamehves/upload", {
       method: "post",
       body: data
     }).then(res => res.json()).
@@ -58,11 +58,11 @@ const App = () => {
 
   return (
     <View>
-      <View style={styles.imageContainer}>
-        <Image source={{ uri: photo }} style={styles.backgroundImage} />
+      <View style={styles.videoContainer}>
+        <Video source={{ uri: photo }} style={styles.backgroundImage} />
       </View>
       <View style={styles.uploadContainer}>
-        <Text style={styles.uploadContainerTitle}>ImagePicker to Cloudinary</Text>
+        <Text style={styles.uploadContainerTitle}>Pick a Video</Text>
         <TouchableOpacity onPress={selectPhotoTapped} style={styles.uploadButton}>
           <Text style={styles.uploadButtonText}>Upload</Text>
         </TouchableOpacity>
@@ -72,13 +72,19 @@ const App = () => {
 };
 
 const styles = StyleSheet.create({
-  imageContainer: {
+  videoContainer: {
     backgroundColor: '#fe5b29',
-    height: Dimensions.get('window').height
+    height: Dimensions.get('window').height,
   },
   backgroundImage: {
-    flex: 1,
-    resizeMode: 'cover',
+    
+    height: Dimensions.get('window').height,
+    position: "absolute",
+        top: 0,
+        left: 0,
+        alignItems: "stretch",
+        bottom: 0,
+        right: 0
   },
   uploadContainer: {
     backgroundColor: '#f6f5f8',
